@@ -1,0 +1,969 @@
+events:
+  workflow.started:
+    category: lifecycle
+    severity: info
+    universal: true
+    blocking: false
+    platforms:
+    - github
+    - slack
+    message:
+      template: '🚀 Starting {workflow_stage} phase{task_description}'
+      emoji: '🚀'
+      format: plain
+    workflows:
+    - all
+    agent: ops
+  workflow.completed:
+    category: lifecycle
+    severity: success
+    universal: true
+    blocking: false
+    platforms:
+    - github
+    - slack
+    message:
+      template: '✅ {workflow_stage} phase complete{task_description}'
+      emoji: '✅'
+      format: plain
+    workflows:
+    - all
+    agent: ops
+  workflow.aborted:
+    category: lifecycle
+    severity: error
+    universal: true
+    blocking: true
+    platforms:
+    - github
+    - slack
+    message:
+      template: '**{workflow_name} Aborted** - {reason}'
+      emoji: ❌
+      format: plain
+    workflows:
+    - zte
+    agent: ops
+  workflow.error:
+    category: lifecycle
+    severity: error
+    universal: true
+    blocking: true
+    platforms:
+    - github
+    - slack
+    message:
+      template: 'Workflow error: {error_message}'
+      emoji: ❌
+      format: plain
+    workflows:
+    - all
+    agent: ops
+  validation.state.missing:
+    category: validation
+    severity: error
+    universal: true
+    blocking: true
+    platforms:
+    - github
+    - slack
+    message:
+      template: 'No existing state found for {adw_id}.
+
+
+        Please run adw_plan_iso.py first to initialize the workflow.'
+      emoji: ❌
+      format: plain
+    workflows:
+    - build
+    - test
+    - review
+    - document
+    - patch
+    - ship
+    agent: ops
+  validation.state.invalid:
+    category: validation
+    severity: error
+    universal: true
+    blocking: true
+    platforms:
+    - github
+    - slack
+    message:
+      template: 'Invalid state: {reason}'
+      emoji: ❌
+      format: plain
+    workflows:
+    - all
+    agent: ops
+  validation.passed:
+    category: validation
+    severity: success
+    universal: false
+    blocking: false
+    platforms:
+    - github
+    message:
+      template: 'Validation passed: {validation_type}'
+      emoji: ✅
+      format: plain
+    workflows:
+    - all
+    agent: ops
+  validation.failed:
+    category: validation
+    severity: error
+    universal: false
+    blocking: true
+    platforms:
+    - github
+    - slack
+    message:
+      template: 'Validation failed: {validation_type} - {reason}'
+      emoji: ❌
+      format: plain
+    workflows:
+    - all
+    agent: ops
+  validation.worktree.missing:
+    category: validation
+    severity: error
+    universal: false
+    blocking: true
+    platforms:
+    - github
+    - slack
+    message:
+      template: 'Worktree not found at: {worktree_path}'
+      emoji: ❌
+      format: plain
+    workflows:
+    - build
+    - test
+    - review
+    agent: ops
+  execution.classification.started:
+    category: execution
+    severity: info
+    universal: false
+    blocking: false
+    platforms:
+    - github
+    message:
+      template: 'Classifying issue type...'
+      emoji: 🔍
+      format: plain
+    workflows:
+    - plan
+    agent: ops
+  execution.build.started:
+    category: execution
+    severity: info
+    universal: false
+    blocking: false
+    platforms:
+    - github
+    - slack
+    message:
+      template: 'Starting build phase in worktree: {worktree_path}'
+      emoji: 🏗️
+      format: plain
+    workflows:
+    - build
+    agent: builder
+  execution.build.command:
+    category: execution
+    severity: info
+    universal: false
+    blocking: false
+    platforms:
+    - github
+    message:
+      template: 'Running build command: {build_cmd}'
+      emoji: 🔨
+      format: plain
+    workflows:
+    - build
+    agent: builder
+  execution.build.progress:
+    category: execution
+    severity: info
+    universal: false
+    blocking: false
+    platforms:
+    - github
+    message:
+      template: 'Build progress: {progress_message}'
+      emoji: 🔨
+      format: plain
+    workflows:
+    - build
+    agent: builder
+  execution.test.running:
+    category: execution
+    severity: info
+    universal: false
+    blocking: false
+    platforms:
+    - github
+    - slack
+    message:
+      template: 'Running test: {test_cmd}'
+      emoji: 🧪
+      format: plain
+    workflows:
+    - test
+    agent: tester
+  execution.test.started:
+    category: execution
+    severity: info
+    universal: false
+    blocking: false
+    platforms:
+    - github
+    - slack
+    message:
+      template: Starting test phase
+      emoji: 🧪
+      format: plain
+    workflows:
+    - test
+    agent: tester
+  execution.review.started:
+    category: execution
+    severity: info
+    universal: false
+    blocking: false
+    platforms:
+    - github
+    - slack
+    message:
+      template: 👀 Starting code review
+      emoji: 👀
+      format: plain
+    workflows:
+    - review
+    agent: reviewer
+  execution.document.started:
+    category: execution
+    severity: info
+    universal: false
+    blocking: false
+    platforms:
+    - github
+    - slack
+    message:
+      template: Starting documentation phase
+      emoji: 📝
+      format: plain
+    workflows:
+    - document
+    agent: documenter
+  execution.patch.started:
+    category: execution
+    severity: info
+    universal: false
+    blocking: false
+    platforms:
+    - github
+    - slack
+    message:
+      template: 🔧 Starting patch application
+      emoji: 🔧
+      format: plain
+    workflows:
+    - patch
+    agent: patcher
+  execution.ship.started:
+    category: execution
+    severity: info
+    universal: false
+    blocking: false
+    platforms:
+    - github
+    - slack
+    message:
+      template: 🚢 Starting ship phase
+      emoji: 🚢
+      format: plain
+    workflows:
+    - ship
+    agent: shipper
+  execution.claude.started:
+    category: execution
+    severity: info
+    universal: false
+    blocking: false
+    platforms:
+    - github
+    message:
+      template: 🤖 Starting Claude Code execution
+      emoji: 🤖
+      format: plain
+    workflows:
+    - all
+    agent: ops
+  execution.claude.completed:
+    category: execution
+    severity: success
+    universal: false
+    blocking: false
+    platforms:
+    - github
+    message:
+      template: Claude Code execution complete
+      emoji: ✅
+      format: plain
+    workflows:
+    - all
+    agent: ops
+  execution.progress:
+    category: execution
+    severity: info
+    universal: false
+    blocking: false
+    platforms:
+    - github
+    message:
+      template: '{progress_message}'
+      emoji: ⏳
+      format: plain
+    workflows:
+    - all
+    agent: ops
+  execution.retry:
+    category: execution
+    severity: info
+    universal: false
+    blocking: false
+    platforms:
+    - github
+    - slack
+    message:
+      template: '🔄 Retrying: {operation} (attempt {attempt_number}/{max_attempts})'
+      emoji: 🔄
+      format: plain
+    workflows:
+    - all
+    agent: ops
+  execution.worktree.creating:
+    category: execution
+    severity: info
+    universal: false
+    blocking: false
+    platforms:
+    - github
+    message:
+      template: 'Creating worktree for {adw_id}'
+      emoji: 🌳
+      format: plain
+    workflows:
+    - plan
+    agent: ops
+  git.branch.created:
+    category: git
+    severity: success
+    universal: true
+    blocking: false
+    platforms:
+    - github
+    - slack
+    message:
+      template: 'Created branch: {branch_name}'
+      emoji: ✅
+      format: plain
+    workflows:
+    - plan
+    agent: ops
+  git.branch.generating:
+    category: git
+    severity: info
+    universal: false
+    blocking: false
+    platforms:
+    - github
+    message:
+      template: 'Generating branch name for issue {issue_number}'
+      emoji: 🌿
+      format: plain
+    workflows:
+    - plan
+    agent: ops
+  git.branch.switched:
+    category: git
+    severity: info
+    universal: false
+    blocking: false
+    platforms:
+    - github
+    message:
+      template: 'Switched to branch: {branch_name}'
+      emoji: 🔀
+      format: plain
+    workflows:
+    - all
+    agent: ops
+  git.commit.started:
+    category: git
+    severity: info
+    universal: false
+    blocking: false
+    platforms:
+    - github
+    message:
+      template: 💾 Preparing commit
+      emoji: 💾
+      format: plain
+    workflows:
+    - all
+    agent: ops
+  git.commit.completed:
+    category: git
+    severity: success
+    universal: true
+    blocking: false
+    platforms:
+    - github
+    - slack
+    message:
+      template: 'Committed: {commit_message}'
+      emoji: ✅
+      format: plain
+    workflows:
+    - all
+    agent: ops
+  git.push.started:
+    category: git
+    severity: info
+    universal: false
+    blocking: false
+    platforms:
+    - github
+    message:
+      template: ⬆️ Pushing to remote
+      emoji: ⬆️
+      format: plain
+    workflows:
+    - all
+    agent: ops
+  git.push.completed:
+    category: git
+    severity: success
+    universal: true
+    blocking: false
+    platforms:
+    - github
+    - slack
+    message:
+      template: Pushed to {branch_name}
+      emoji: ✅
+      format: plain
+    workflows:
+    - all
+    agent: ops
+  git.pr.created:
+    category: git
+    severity: success
+    universal: true
+    blocking: false
+    platforms:
+    - github
+    - slack
+    message:
+      template: 'Pull request created: {pr_url}'
+      emoji: ✅
+      format: plain
+    workflows:
+    - plan
+    - test
+    - review
+    - document
+    agent: ops
+  git.pr.updated:
+    category: git
+    severity: success
+    universal: false
+    blocking: false
+    platforms:
+    - github
+    - slack
+    message:
+      template: 'Pull request updated: {pr_url}'
+      emoji: ✅
+      format: plain
+    workflows:
+    - all
+    agent: ops
+  git.pr.merged:
+    category: git
+    severity: success
+    universal: true
+    blocking: false
+    platforms:
+    - github
+    - slack
+    message:
+      template: 'Pull request merged: {pr_url}'
+      emoji: 🎉
+      format: plain
+    workflows:
+    - ship
+    agent: ops
+  git.worktree.created:
+    category: git
+    severity: success
+    universal: false
+    blocking: false
+    platforms:
+    - github
+    - slack
+    message:
+      template: 'Created worktree at: {worktree_path}'
+      emoji: ✅
+      format: plain
+    workflows:
+    - plan
+    - build
+    agent: ops
+  git.worktree.removed:
+    category: git
+    severity: info
+    universal: false
+    blocking: false
+    platforms:
+    - github
+    message:
+      template: '🗑️ Removed worktree: {worktree_path}'
+      emoji: 🗑️
+      format: plain
+    workflows:
+    - all
+    agent: ops
+  git.status:
+    category: git
+    severity: info
+    universal: false
+    blocking: false
+    platforms:
+    - github
+    message:
+      template: '📊 Git status: {status_message}'
+      emoji: 📊
+      format: plain
+    workflows:
+    - all
+    agent: ops
+  error.build.failed:
+    category: error
+    severity: error
+    universal: false
+    blocking: true
+    platforms:
+    - github
+    - slack
+    message:
+      template: 'Build failed:
+
+        ```
+
+        {stderr}
+
+        ```'
+      emoji: ❌
+      format: code_block
+    workflows:
+    - build
+    agent: builder
+  error.test.failed:
+    category: error
+    severity: error
+    universal: false
+    blocking: true
+    platforms:
+    - github
+    - slack
+    message:
+      template: 'Test failed: {test_cmd}
+
+
+        {error_output}'
+      emoji: ❌
+      format: code_block
+    workflows:
+    - test
+    agent: tester
+  error.git.failed:
+    category: error
+    severity: error
+    universal: false
+    blocking: true
+    platforms:
+    - github
+    - slack
+    message:
+      template: 'Git operation failed: {operation} - {error_message}'
+      emoji: ❌
+      format: plain
+    workflows:
+    - all
+    agent: ops
+  error.claude.failed:
+    category: error
+    severity: error
+    universal: false
+    blocking: true
+    platforms:
+    - github
+    - slack
+    message:
+      template: 'Claude Code failed: {error_message}'
+      emoji: ❌
+      format: plain
+    workflows:
+    - all
+    agent: ops
+  error.worktree.failed:
+    category: error
+    severity: error
+    universal: false
+    blocking: true
+    platforms:
+    - github
+    - slack
+    message:
+      template: 'Worktree operation failed: {error_message}'
+      emoji: ❌
+      format: plain
+    workflows:
+    - build
+    - test
+    - review
+    agent: ops
+  error.worktree.creation_failed:
+    category: error
+    severity: error
+    universal: false
+    blocking: true
+    platforms:
+    - github
+    - slack
+    message:
+      template: 'Failed to create worktree: {error_message}'
+      emoji: ❌
+      format: plain
+    workflows:
+    - plan
+    agent: ops
+  error.state.failed:
+    category: error
+    severity: error
+    universal: false
+    blocking: true
+    platforms:
+    - github
+    - slack
+    message:
+      template: 'State management failed: {error_message}'
+      emoji: ❌
+      format: plain
+    workflows:
+    - all
+    agent: ops
+  error.configuration:
+    category: error
+    severity: error
+    universal: true
+    blocking: true
+    platforms:
+    - github
+    - slack
+    message:
+      template: 'Configuration error: {error_message}'
+      emoji: ❌
+      format: plain
+    workflows:
+    - all
+    agent: ops
+  error.timeout:
+    category: error
+    severity: error
+    universal: false
+    blocking: true
+    platforms:
+    - github
+    - slack
+    message:
+      template: '⏱️ Operation timed out: {operation} (after {timeout_seconds}s)'
+      emoji: ⏱️
+      format: plain
+    workflows:
+    - all
+    agent: ops
+  error.generic:
+    category: error
+    severity: error
+    universal: false
+    blocking: false
+    platforms:
+    - github
+    - slack
+    message:
+      template: 'Error: {error_message}'
+      emoji: ❌
+      format: plain
+    workflows:
+    - all
+    agent: ops
+  result.classification.complete:
+    category: result
+    severity: success
+    universal: false
+    blocking: false
+    platforms:
+    - github
+    - slack
+    message:
+      template: 'Issue classified as: {issue_command}'
+      emoji: ✅
+      format: plain
+    workflows:
+    - plan
+    - patch
+    agent: ops
+  result.classification.completed:
+    category: result
+    severity: success
+    universal: false
+    blocking: false
+    platforms:
+    - github
+    - slack
+    message:
+      template: 'Issue classified as: {issue_command}'
+      emoji: ✅
+      format: plain
+    workflows:
+    - plan
+    - patch
+    agent: ops
+  result.build.success:
+    category: result
+    severity: success
+    universal: false
+    blocking: false
+    platforms:
+    - github
+    - slack
+    message:
+      template: Build successful
+      emoji: ✅
+      format: plain
+    workflows:
+    - build
+    agent: builder
+  result.test.passed:
+    category: result
+    severity: success
+    universal: false
+    blocking: false
+    platforms:
+    - github
+    - slack
+    message:
+      template: 'Test passed: {test_cmd}'
+      emoji: ✅
+      format: plain
+    workflows:
+    - test
+    agent: tester
+  result.test.all_passed:
+    category: result
+    severity: success
+    universal: false
+    blocking: false
+    platforms:
+    - github
+    - slack
+    message:
+      template: All tests passed ({test_count} tests)
+      emoji: ✅
+      format: plain
+    workflows:
+    - test
+    agent: tester
+  result.review.complete:
+    category: result
+    severity: success
+    universal: false
+    blocking: false
+    platforms:
+    - github
+    - slack
+    message:
+      template: Code review complete
+      emoji: ✅
+      format: plain
+    workflows:
+    - review
+    agent: reviewer
+  result.document.complete:
+    category: result
+    severity: success
+    universal: false
+    blocking: false
+    platforms:
+    - github
+    - slack
+    message:
+      template: Documentation complete
+      emoji: ✅
+      format: plain
+    workflows:
+    - document
+    agent: documenter
+  result.patch.applied:
+    category: result
+    severity: success
+    universal: false
+    blocking: false
+    platforms:
+    - github
+    - slack
+    message:
+      template: Patch applied successfully
+      emoji: ✅
+      format: plain
+    workflows:
+    - patch
+    agent: patcher
+  result.ship.complete:
+    category: result
+    severity: success
+    universal: false
+    blocking: false
+    platforms:
+    - github
+    - slack
+    message:
+      template: Ship complete - Changes deployed!
+      emoji: 🎉
+      format: plain
+    workflows:
+    - ship
+    agent: shipper
+  result.spec.generated:
+    category: result
+    severity: success
+    universal: false
+    blocking: false
+    platforms:
+    - github
+    - slack
+    message:
+      template: 'Generated spec: {spec_file}'
+      emoji: ✅
+      format: plain
+    workflows:
+    - plan
+    agent: ops
+  result.plan.generated:
+    category: result
+    severity: success
+    universal: false
+    blocking: false
+    platforms:
+    - github
+    - slack
+    message:
+      template: Implementation plan generated
+      emoji: ✅
+      format: plain
+    workflows:
+    - plan
+    agent: ops
+  result.code.generated:
+    category: result
+    severity: success
+    universal: false
+    blocking: false
+    platforms:
+    - github
+    - slack
+    message:
+      template: Code implementation complete
+      emoji: ✅
+      format: plain
+    workflows:
+    - build
+    agent: builder
+  navigation.next.suggested:
+    category: navigation
+    severity: info
+    universal: true
+    blocking: false
+    platforms:
+    - github
+    - slack
+    message:
+      template: '✨ Next: Run {next_workflow} {issue_number} {adw_id}'
+      emoji: ✨
+      format: plain
+    workflows:
+    - all_except_ship
+    agent: ops
+  navigation.workflow.skipped:
+    category: navigation
+    severity: info
+    universal: false
+    blocking: false
+    platforms:
+    - github
+    message:
+      template: '⏭️ Skipped workflow: {workflow_name} - {reason}'
+      emoji: ⏭️
+      format: plain
+    workflows:
+    - all
+    agent: ops
+  navigation.help:
+    category: navigation
+    severity: info
+    universal: false
+    blocking: false
+    platforms:
+    - github
+    message:
+      template: ℹ️ {help_message}
+      emoji: ℹ️
+      format: plain
+    workflows:
+    - all
+    agent: ops
+platform_routing:
+  slack_exclude:
+  - execution.build.command
+  - execution.build.progress
+  - execution.progress
+  - git.commit.started
+  - git.push.started
+  - git.branch.switched
+  - git.worktree.removed
+  - git.status
+  - navigation.workflow.skipped
+  - navigation.help
+  slack_priority:
+  - error.build.failed
+  - error.test.failed
+  - error.git.failed
+  - error.claude.failed
+  - error.worktree.failed
+  - error.state.failed
+  - error.configuration
+  - error.timeout
+  - git.pr.created
+  - git.pr.merged
+  - workflow.completed
+  - workflow.aborted
+  - workflow.error
+  - result.ship.complete

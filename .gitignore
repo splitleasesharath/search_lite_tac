@@ -1,0 +1,9 @@
+# Exclude all markdown files
+*.md
+
+# Exclude environment files with secrets
+.env
+
+# Exclude env folder from apps directory
+apps/env/
+apps/env

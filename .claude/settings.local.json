@@ -1,0 +1,9 @@
+{
+  "permissions": {
+    "allow": [
+      "Read(//c/Users/igor/My Drive (splitleaseteam@gmail.com)/!Agent Context and Tools/SL1/Context/**)",
+      "Read(//c/Users/igor/My Drive (splitleaseteam@gmail.com)/!Agent Context and Tools/SL1/TAC/tac7practice/adws/delete/**)"
+    ]
+  },
+  "outputStyle": "Explanatory"
+}
