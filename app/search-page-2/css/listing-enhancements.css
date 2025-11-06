@@ -1,0 +1,473 @@
+/**
+ * Listing Cards Enhancement Styles
+ * Phase 1: Bedroom/bathroom specs, amenity icons, enhanced pricing, description truncation
+ */
+
+/* ===== Listing Specs (Bedrooms/Bathrooms) ===== */
+.listing-specs {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin: 8px 0;
+    font-size: 14px;
+    color: var(--text-gray);
+    font-weight: 500;
+}
+
+.listing-specs .spec-item {
+    display: inline-flex;
+    align-items: center;
+    white-space: nowrap;
+}
+
+.listing-specs .spec-item.highlight {
+    color: var(--primary-purple);
+    font-weight: 600;
+}
+
+.listing-specs .spec-separator {
+    color: var(--text-gray);
+    opacity: 0.5;
+    margin: 0 4px;
+}
+
+/* ===== Amenity Icons Row ===== */
+.listing-amenities {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin: 10px 0;
+    min-height: 32px;
+}
+
+.listing-amenities.empty {
+    font-size: 12px;
+    color: var(--text-gray);
+    opacity: 0.7;
+    font-style: italic;
+}
+
+.amenity-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    background: var(--bg-light);
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    font-size: 16px;
+    cursor: help;
+    transition: all 0.2s ease;
+    position: relative;
+}
+
+.amenity-icon:hover {
+    background: white;
+    border-color: var(--primary-purple);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(49, 19, 93, 0.15);
+    z-index: 10;
+}
+
+/* Amenity icon images (from CDN) */
+.amenity-icon-img {
+    width: 20px;
+    height: 20px;
+    object-fit: contain;
+}
+
+/* Tooltip on hover */
+.amenity-icon::after {
+    content: attr(data-tooltip);
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%) translateY(-8px);
+    background: rgba(26, 26, 26, 0.95);
+    color: white;
+    padding: 6px 10px;
+    border-radius: 6px;
+    font-size: 12px;
+    font-weight: 500;
+    white-space: nowrap;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s ease, transform 0.2s ease;
+    z-index: 1000;
+}
+
+.amenity-icon:hover::after {
+    opacity: 1;
+    transform: translateX(-50%) translateY(-4px);
+}
+
+/* "+X more" counter */
+.amenity-more-count {
+    display: inline-flex;
+    align-items: center;
+    padding: 6px 12px;
+    background: var(--primary-purple);
+    color: white;
+    border-radius: 16px;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.amenity-more-count:hover {
+    background: var(--primary-purple-hover);
+    transform: scale(1.05);
+}
+
+/* ===== Enhanced Pricing Display ===== */
+.pricing-info-enhanced {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin-top: 8px;
+}
+
+/* Primary price (prominent, large) */
+.primary-price {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.price-label {
+    font-size: 11px;
+    color: var(--text-gray);
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.price-amount {
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--primary-purple);
+    line-height: 1.2;
+}
+
+.price-unit {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--text-gray);
+    margin-left: 2px;
+}
+
+/* Secondary price (smaller, subdued) */
+.secondary-price {
+    font-size: 12px;
+    color: var(--text-gray);
+    font-weight: 400;
+    text-decoration: line-through;
+    opacity: 0.8;
+}
+
+/* Pricing details button */
+.pricing-details-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 6px 10px;
+    background: transparent;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--text-gray);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    align-self: flex-start;
+    margin-top: 4px;
+}
+
+.pricing-details-btn:hover {
+    border-color: var(--primary-purple);
+    color: var(--primary-purple);
+    background: rgba(49, 19, 93, 0.05);
+}
+
+.pricing-details-btn svg {
+    flex-shrink: 0;
+}
+
+/* ===== Pricing Modal ===== */
+.pricing-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10000;
+    padding: 20px;
+    animation: fadeIn 0.2s ease;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+.pricing-modal {
+    background: white;
+    border-radius: 12px;
+    max-width: 500px;
+    width: 100%;
+    max-height: 90vh;
+    overflow: auto;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    animation: slideUp 0.3s ease;
+}
+
+@keyframes slideUp {
+    from {
+        transform: translateY(20px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+.pricing-modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 24px;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.pricing-modal-header h3 {
+    margin: 0;
+    font-size: 20px;
+    font-weight: 600;
+    color: var(--text-dark);
+}
+
+.pricing-modal-close {
+    background: none;
+    border: none;
+    font-size: 28px;
+    color: var(--text-gray);
+    cursor: pointer;
+    padding: 0;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 6px;
+    transition: all 0.2s ease;
+}
+
+.pricing-modal-close:hover {
+    background: var(--bg-light);
+    color: var(--text-dark);
+}
+
+.pricing-modal-body {
+    padding: 24px;
+}
+
+.listing-title {
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--text-dark);
+    margin-bottom: 4px;
+}
+
+.listing-location-modal {
+    font-size: 14px;
+    color: var(--text-gray);
+    margin-bottom: 20px;
+}
+
+/* Pricing table */
+.pricing-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 16px 0;
+}
+
+.pricing-table th {
+    text-align: left;
+    padding: 12px;
+    background: var(--bg-light);
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text-gray);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    border-bottom: 2px solid var(--border-color);
+}
+
+.pricing-table td {
+    padding: 14px 12px;
+    border-bottom: 1px solid var(--border-color);
+    font-size: 14px;
+    color: var(--text-dark);
+}
+
+.pricing-table tr:last-child td {
+    border-bottom: none;
+}
+
+.pricing-table tr:hover {
+    background: rgba(49, 19, 93, 0.02);
+}
+
+.pricing-note {
+    font-size: 13px;
+    color: var(--text-gray);
+    line-height: 1.5;
+    padding: 12px;
+    background: var(--bg-light);
+    border-radius: 8px;
+    margin-top: 16px;
+}
+
+.pricing-modal-footer {
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+    padding: 16px 24px;
+    border-top: 1px solid var(--border-color);
+}
+
+.btn-primary,
+.btn-secondary {
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    border: none;
+}
+
+.btn-primary {
+    background: var(--primary-purple);
+    color: white;
+}
+
+.btn-primary:hover {
+    background: var(--primary-purple-hover);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(49, 19, 93, 0.3);
+}
+
+.btn-secondary {
+    background: transparent;
+    color: var(--text-gray);
+    border: 1px solid var(--border-color);
+}
+
+.btn-secondary:hover {
+    background: var(--bg-light);
+    border-color: var(--text-gray);
+    color: var(--text-dark);
+}
+
+/* ===== Description Truncation with Line-Clamp ===== */
+.listing-details {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    line-height: 1.5;
+    margin: 8px 0;
+    font-size: 14px;
+    color: var(--text-gray);
+}
+
+/* ===== Schedule Indicator (for Phase 2) ===== */
+.schedule-indicator {
+    display: flex;
+    gap: 4px;
+    margin: 8px 0;
+}
+
+.schedule-day {
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px;
+    font-weight: 600;
+    border-radius: 4px;
+    background: var(--bg-light);
+    color: var(--text-gray);
+    border: 1px solid var(--border-color);
+}
+
+.schedule-day.available {
+    background: var(--primary-purple);
+    color: white;
+    border-color: var(--primary-purple);
+}
+
+/* ===== Responsive Adjustments ===== */
+@media (max-width: 768px) {
+    .listing-amenities {
+        gap: 6px;
+    }
+
+    .amenity-icon {
+        width: 28px;
+        height: 28px;
+        font-size: 14px;
+    }
+
+    .amenity-icon-img {
+        width: 18px;
+        height: 18px;
+    }
+
+    .price-amount {
+        font-size: 20px;
+    }
+
+    .pricing-modal {
+        max-width: 100%;
+        margin: 0;
+        border-radius: 12px 12px 0 0;
+    }
+}
+
+@media (max-width: 576px) {
+    .listing-specs {
+        font-size: 13px;
+    }
+
+    .amenity-more-count {
+        padding: 5px 10px;
+        font-size: 11px;
+    }
+
+    .price-amount {
+        font-size: 18px;
+    }
+
+    .pricing-modal-body {
+        padding: 16px;
+    }
+
+    .pricing-table th,
+    .pricing-table td {
+        padding: 10px 8px;
+        font-size: 13px;
+    }
+}
