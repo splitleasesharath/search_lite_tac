@@ -1,0 +1,28 @@
+# Git attributes for SplitLease repository
+# Helps manage merge conflicts for package files
+
+# Package lock files use custom merge driver that regenerates from package.json
+# This prevents manual merging of machine-generated JSON
+# Run: git config --local merge.npm-merge-driver.driver "node scripts/npm-merge-driver.js %O %A %B %P"
+**/package-lock.json merge=npm-merge-driver
+
+# Ensure consistent line endings
+* text=auto
+*.js text eol=lf
+*.ts text eol=lf
+*.tsx text eol=lf
+*.json text eol=lf
+*.md text eol=lf
+*.sh text eol=lf
+
+# Mark binary files
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.ico binary
+*.svg binary
+*.woff binary
+*.woff2 binary
+*.ttf binary
+*.eot binary

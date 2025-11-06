@@ -1,0 +1,948 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AiPopupSignupSearch - Final Demo</title>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="https://unpkg.com/lottie-web@5.12.2/build/player/lottie.min.js"></script>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .demo-container {
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            max-width: 750px;
+            width: 100%;
+        }
+
+        .demo-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .demo-header h1 {
+            color: #333;
+            margin-bottom: 10px;
+            font-size: 28px;
+        }
+
+        .demo-header p {
+            color: #666;
+            font-size: 16px;
+        }
+
+        .demo-button {
+            display: block;
+            width: 100%;
+            padding: 16px 32px;
+            background: #8B31FF;
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .demo-button:hover {
+            background: #7a28e6;
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(139, 49, 255, 0.3);
+        }
+
+        .feature-box {
+            margin-top: 25px;
+            padding: 20px;
+            background: #fff9e6;
+            border: 2px solid #ffd700;
+            border-radius: 12px;
+        }
+
+        .feature-box h3 {
+            color: #856404;
+            margin-bottom: 12px;
+            font-size: 18px;
+        }
+
+        .feature-box ul {
+            list-style: none;
+            color: #666;
+            font-size: 14px;
+        }
+
+        .feature-box li {
+            padding: 6px 0;
+            padding-left: 24px;
+            position: relative;
+            line-height: 1.4;
+        }
+
+        .feature-box li:before {
+            content: "⚡";
+            position: absolute;
+            left: 0;
+            color: #ffd700;
+        }
+
+        .demo-info {
+            margin-top: 20px;
+            padding: 20px;
+            background: #f8f5ff;
+            border-radius: 12px;
+            border: 1px solid #e4d5ff;
+        }
+
+        .demo-info h3 {
+            color: #333;
+            margin-bottom: 12px;
+            font-size: 18px;
+        }
+
+        .demo-info ul {
+            list-style: none;
+            color: #666;
+            font-size: 14px;
+        }
+
+        .demo-info li {
+            padding: 6px 0;
+            padding-left: 24px;
+            position: relative;
+            line-height: 1.4;
+        }
+
+        .demo-info li:before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: #8B31FF;
+            font-weight: bold;
+        }
+
+        /* Modal Styles */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            animation: fadeIn 0.2s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .modal {
+            background: #FFFFFF;
+            border: 1px solid #D4D4D4;
+            border-radius: 25px;
+            box-shadow: 0 4px 2px rgba(0, 0, 0, 0.1);
+            max-width: 600px;
+            width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+            position: relative;
+            animation: slideUp 0.3s ease-out;
+        }
+
+        @keyframes slideUp {
+            from { transform: translateY(20px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        .modal-header {
+            padding: 24px;
+            border-bottom: 1px dotted #6B6B6B;
+            position: relative;
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+        }
+
+        .modal-icon {
+            width: 40px;
+            height: 40px;
+            color: #8B31FF;
+            flex-shrink: 0;
+        }
+
+        .modal-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #333;
+            margin: 0;
+            padding-right: 40px;
+            line-height: 1.4;
+            flex: 1;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: none;
+            border: none;
+            font-size: 32px;
+            cursor: pointer;
+            color: #666;
+            line-height: 1;
+            padding: 0;
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: color 0.2s;
+        }
+
+        .modal-close:hover { color: #333; }
+
+        .modal-content {
+            padding: 24px;
+            min-height: 200px;
+        }
+
+        /* Form Styles */
+        .freeform-container {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .freeform-instruction {
+            font-size: 16px;
+            font-weight: 500;
+            color: #333;
+            margin-bottom: 8px;
+        }
+
+        .freeform-textarea {
+            width: 100%;
+            padding: 16px;
+            border: 1px solid #D4D4D4;
+            border-radius: 12px;
+            font-size: 15px;
+            font-family: inherit;
+            line-height: 1.6;
+            resize: vertical;
+            min-height: 180px;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+
+        .freeform-textarea:focus {
+            outline: none;
+            border-color: #8B31FF;
+            box-shadow: 0 0 0 3px rgba(139, 49, 255, 0.1);
+        }
+
+        .freeform-helper {
+            background: #f8f5ff;
+            border: 1px solid #e4d5ff;
+            border-radius: 8px;
+            padding: 12px 16px;
+            font-size: 14px;
+            color: #6B6B6B;
+        }
+
+        .contact-form {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .contact-heading {
+            font-size: 18px;
+            font-weight: 600;
+            color: #333;
+            margin: 0 0 8px 0;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .form-label {
+            font-size: 14px;
+            font-weight: 500;
+            color: #333;
+        }
+
+        .form-required {
+            color: #e53e3e;
+            margin-left: 2px;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 12px 16px;
+            border: 1px solid #D4D4D4;
+            border-radius: 8px;
+            font-size: 15px;
+            font-family: inherit;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: #8B31FF;
+            box-shadow: 0 0 0 3px rgba(139, 49, 255, 0.1);
+        }
+
+        .form-disclaimer {
+            font-size: 13px;
+            color: #6B6B6B;
+            margin: 8px 0 0 0;
+        }
+
+        /* Navigation */
+        .nav-buttons {
+            display: flex;
+            gap: 12px;
+            padding: 24px;
+            border-top: 1px dotted #6B6B6B;
+        }
+
+        .nav-back, .nav-next {
+            flex: 1;
+            padding: 12px 24px;
+            font-size: 16px;
+            font-weight: 500;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .nav-back {
+            border: 1px solid #D4D4D4;
+            background: white;
+            color: #8B31FF;
+        }
+
+        .nav-back:hover {
+            background: #f5f5f5;
+            border-color: #8B31FF;
+        }
+
+        .nav-next {
+            border: none;
+            background: #8B31FF;
+            color: white;
+        }
+
+        .nav-next:hover {
+            background: #7a28e6;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 8px rgba(139, 49, 255, 0.2);
+        }
+
+        /* Lottie containers */
+        .parsing-container,
+        .loading-container,
+        .success-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 40px 20px;
+            text-align: center;
+        }
+
+        .lottie-wrapper {
+            margin-bottom: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .parsing-lottie {
+            width: 100px;
+            height: 100px;
+        }
+
+        .loading-lottie {
+            width: 120px;
+            height: 120px;
+        }
+
+        .success-lottie {
+            width: 200px;
+            height: 200px;
+        }
+
+        .stage-message {
+            font-size: 20px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 8px;
+        }
+
+        .stage-submessage {
+            font-size: 14px;
+            color: #6B6B6B;
+        }
+
+        .error-message {
+            background: #fee;
+            border: 1px solid #fcc;
+            color: #c33;
+            padding: 12px 16px;
+            margin: 0 24px 16px;
+            border-radius: 8px;
+            font-size: 14px;
+        }
+
+        .final-close {
+            width: 100%;
+            padding: 12px 24px;
+            border: none;
+            background: #8B31FF;
+            color: white;
+            font-size: 16px;
+            font-weight: 500;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .final-close:hover {
+            background: #7a28e6;
+        }
+    </style>
+</head>
+<body>
+    <div class="demo-container">
+        <div class="demo-header">
+            <h1>🎯 AiPopupSignupSearch - Final Version</h1>
+            <p>Complete Bubble.io behavior with all features</p>
+        </div>
+
+        <button class="demo-button" onclick="openModal()">
+            Start Market Research Signup
+        </button>
+
+        <div class="feature-box">
+            <h3>✨ New Features:</h3>
+            <ul>
+                <li><strong>Parsing stage:</strong> Analyzes text with loading animation</li>
+                <li><strong>Dynamic button:</strong> Shows "Submit" when data is valid</li>
+                <li><strong>Incomplete phone:</strong> Still passes through to contact form</li>
+                <li><strong>No intro screen:</strong> Opens directly to input</li>
+            </ul>
+        </div>
+
+        <div class="demo-info">
+            <h3>Try These Examples:</h3>
+            <ul>
+                <li><strong>Auto-submit:</strong> "Send to john@gmail.com, call (415) 555-5555"</li>
+                <li><strong>Auto-correct typo:</strong> "Email fred@gmail,com" → fixes to "fred@gmail.com"</li>
+                <li><strong>Invalid phone:</strong> "Call 12345" → passes "12345" to form</li>
+                <li><strong>Incomplete phone:</strong> "Call (415) 55" → passes to form</li>
+            </ul>
+        </div>
+    </div>
+
+    <div id="modal-root"></div>
+
+    <script type="text/babel">
+        const { useState, useCallback, useEffect, useRef } = React;
+
+        // Lottie URLs
+        const PARSING_LOTTIE_URL = 'https://50bf0464e4735aabad1cc8848a0e8b8a.cdn.bubble.io/f1722533720265x199451206376484160/Animation%20-%201722533570126.json';
+        const LOADING_LOTTIE_URL = 'https://50bf0464e4735aabad1cc8848a0e8b8a.cdn.bubble.io/f1720724605167x733559911663532000/Animation%20-%201720724343172.lottie';
+        const SUCCESS_LOTTIE_URL = 'https://50bf0464e4735aabad1cc8848a0e8b8a.cdn.bubble.io/f1745939792891x394981453861459140/Report.json';
+
+        // Lottie Component
+        function LottieAnimation({ src, loop = true, autoplay = true, className = '' }) {
+            const containerRef = useRef(null);
+            const animationRef = useRef(null);
+
+            useEffect(() => {
+                if (!containerRef.current || !window.lottie) return;
+
+                if (animationRef.current) {
+                    animationRef.current.destroy();
+                }
+
+                animationRef.current = window.lottie.loadAnimation({
+                    container: containerRef.current,
+                    renderer: 'svg',
+                    loop,
+                    autoplay,
+                    path: src,
+                });
+
+                return () => {
+                    if (animationRef.current) {
+                        animationRef.current.destroy();
+                    }
+                };
+            }, [src, loop, autoplay]);
+
+            return <div ref={containerRef} className={className} />;
+        }
+
+        // Extraction utilities
+        function extractEmail(text) {
+            if (!text) return null;
+            // Accept both dots and commas in domain to catch typos like "gmail,com"
+            const emailRegex = /[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+[.,][a-zA-Z]{2,}/;
+            const match = text.match(emailRegex);
+            return match ? match[0] : null;
+        }
+
+        function extractPhone(text) {
+            if (!text) return null;
+
+            // First try to match complete phone numbers
+            const completePhoneRegex = /\(?\d{3}\)?[-.\s]?\d{3}[-.\s]?\d{4}/;
+            const completeMatch = text.match(completePhoneRegex);
+            if (completeMatch) return completeMatch[0];
+
+            // If no complete phone, try to match any sequence of digits with phone-like formatting
+            // This captures: 12345, (415) 55, 555-12, etc.
+            const partialPhoneRegex = /\(?\d{1,3}\)?[-.\s]?\d{1,4}[-.\s]?\d{0,4}|\b\d{3,}\b/;
+            const partialMatch = text.match(partialPhoneRegex);
+            return partialMatch ? partialMatch[0] : null;
+        }
+
+        function checkEmailCertainty(email) {
+            if (!email) return 'uncertain';
+
+            const commonDomains = ['gmail.com', 'yahoo.com', 'hotmail.com', 'outlook.com', 'icloud.com'];
+            const commonTypos = ['gmial.com', 'gmai.com', 'yahooo.com', 'hotmial.com'];
+
+            const domain = email.split('@')[1]?.toLowerCase();
+
+            if (commonTypos.includes(domain)) return 'uncertain';
+            if (domain && domain.length < 5) return 'uncertain';
+            if (!domain?.includes('.')) return 'uncertain';
+            if (commonDomains.includes(domain)) return 'certain';
+
+            return 'certain';
+        }
+
+        function autoCorrectEmail(email) {
+            if (!email) return email;
+
+            const typoMap = {
+                'gmial.com': 'gmail.com',
+                'gmai.com': 'gmail.com',
+                'gnail.com': 'gmail.com',
+                'gmail.co': 'gmail.com',
+                'gmail,com': 'gmail.com',
+                'yahooo.com': 'yahoo.com',
+                'yaho.com': 'yahoo.com',
+                'yahoo,com': 'yahoo.com',
+                'hotmial.com': 'hotmail.com',
+                'hotmai.com': 'hotmail.com',
+                'hotmail,com': 'hotmail.com',
+                'outlok.com': 'outlook.com',
+                'outlook,com': 'outlook.com',
+                'icoud.com': 'icloud.com',
+                'icloud,com': 'icloud.com',
+            };
+
+            const [localPart, domain] = email.split('@');
+            if (!domain) return email;
+
+            const domainLower = domain.toLowerCase();
+            const fixedDomain = domainLower.replace(',', '.');
+            const correctedDomain = typoMap[fixedDomain] || fixedDomain;
+
+            return `${localPart}@${correctedDomain}`;
+        }
+
+        // Main Modal Component
+        function AiPopupSignupSearch({ isOpen, onClose }) {
+            const [section, setSection] = useState('freeform');
+            const [formData, setFormData] = useState({});
+            const [error, setError] = useState(null);
+
+            useEffect(() => {
+                if (!isOpen) {
+                    setSection('freeform');
+                    setFormData({});
+                    setError(null);
+                }
+            }, [isOpen]);
+
+            useEffect(() => {
+                const handleEscape = (e) => {
+                    if (e.key === 'Escape' && isOpen) onClose();
+                };
+                document.addEventListener('keydown', handleEscape);
+                return () => document.removeEventListener('keydown', handleEscape);
+            }, [isOpen, onClose]);
+
+            // Get button text dynamically
+            const getButtonText = () => {
+                if (section === 'freeform') {
+                    const extractedEmail = extractEmail(formData.marketResearchText);
+                    const extractedPhone = extractPhone(formData.marketResearchText);
+                    const correctedEmail = extractedEmail ? autoCorrectEmail(extractedEmail) : '';
+                    const emailCertainty = correctedEmail ? checkEmailCertainty(correctedEmail) : 'uncertain';
+
+                    // Check if data is PERFECT (no corrections needed)
+                    const emailWasCorrected = extractedEmail !== correctedEmail;
+                    const phoneIsComplete = extractedPhone ? /^\(?\d{3}\)?[-.\s]?\d{3}[-.\s]?\d{4}$/.test(extractedPhone) : false;
+
+                    // Only show "Submit" if data is perfect
+                    const isPerfect = correctedEmail && extractedPhone && emailCertainty === 'certain' && !emailWasCorrected && phoneIsComplete;
+
+                    if (isPerfect) {
+                        return 'Submit';
+                    }
+                    return 'Next';
+                }
+                if (section === 'contact') return 'Submit';
+                return 'Next';
+            };
+
+            const handleNext = async () => {
+                if (section === 'freeform') {
+                    // Go to parsing stage
+                    setSection('parsing');
+
+                    // Wait 1.5s for parsing/analysis
+                    await new Promise(resolve => setTimeout(resolve, 1500));
+
+                    const email = extractEmail(formData.marketResearchText);
+                    const phone = extractPhone(formData.marketResearchText);
+
+                    // Auto-correct email
+                    const correctedEmail = email ? autoCorrectEmail(email) : '';
+                    const emailCertainty = correctedEmail ? checkEmailCertainty(correctedEmail) : 'uncertain';
+
+                    // Check if we made any corrections or extractions
+                    const emailWasCorrected = email !== correctedEmail;
+                    const phoneIsComplete = phone ? /^\(?\d{3}\)?[-.\s]?\d{3}[-.\s]?\d{4}$/.test(phone) : false;
+
+                    // Prepare updated form data with corrected email and any phone (even invalid)
+                    const updatedFormData = {
+                        ...formData,
+                        email: correctedEmail || formData.email || '',
+                        phone: phone || formData.phone || ''  // Pass through any number
+                    };
+
+                    console.log('Extracted:', { original: email, corrected: correctedEmail, phone });
+                    console.log('Analysis:', { emailWasCorrected, phoneIsComplete });
+
+                    // Only auto-submit if BOTH email and phone are PERFECT (no corrections, phone is complete)
+                    const shouldAutoSubmit =
+                        correctedEmail &&
+                        phone &&
+                        emailCertainty === 'certain' &&
+                        !emailWasCorrected &&
+                        phoneIsComplete;
+
+                    if (shouldAutoSubmit) {
+                        console.log('✅ Perfect data - Auto-submitting');
+
+                        try {
+                            // Call Bubble workflow during parsing (no separate loading screen)
+                            const response = await fetch('https://app.split.lease/version-test/api/1.1/wf/ai-signup-guest', {
+                                method: 'POST',
+                                headers: {
+                                    'Content-Type': 'application/json',
+                                    'Authorization': 'Bearer 5dbb448f9a6bbb043cb56ac16b8de109',
+                                },
+                                body: JSON.stringify({
+                                    email: correctedEmail,
+                                    phone: phone || '',
+                                    'text inputted': formData.marketResearchText,
+                                }),
+                            });
+
+                            if (!response.ok) {
+                                const errorText = await response.text();
+                                console.error('❌ Bubble API Error Response:', errorText);
+                                console.error('❌ Status:', response.status, response.statusText);
+                                throw new Error(`Signup failed: ${response.status} - ${errorText}`);
+                            }
+
+                            console.log('✅ Form auto-submitted successfully to Bubble workflow');
+                            console.log('Data sent:', { email: correctedEmail, phone, text: formData.marketResearchText });
+
+                            setSection('final');
+                        } catch (error) {
+                            console.error('❌ Auto-submit error:', error);
+                            // On error, show contact form with extracted data
+                            setFormData(updatedFormData);
+                            await new Promise(resolve => setTimeout(resolve, 50));
+                            setSection('contact');
+                        }
+                        return;
+                    }
+
+                    // Otherwise show contact form with pre-filled data for verification
+                    console.log('⚠️ Showing contact form for verification');
+                    console.log('   Email (corrected):', updatedFormData.email);
+                    console.log('   Phone (extracted):', updatedFormData.phone);
+                    setFormData(updatedFormData);
+
+                    // Small delay to ensure state update completes
+                    await new Promise(resolve => setTimeout(resolve, 50));
+                    setSection('contact');
+                }
+            };
+
+            const handleBack = () => {
+                setSection('freeform');
+            };
+
+            const handleSubmit = async (data = formData) => {
+                if (!data.email) {
+                    setError('Email is required');
+                    return;
+                }
+
+                setSection('loading');
+
+                try {
+                    // Call Bubble workflow
+                    const response = await fetch('https://app.split.lease/version-test/api/1.1/wf/ai-signup-guest', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Authorization': 'Bearer 5dbb448f9a6bbb043cb56ac16b8de109',
+                        },
+                        body: JSON.stringify({
+                            email: data.email,
+                            phone: data.phone || '',
+                            'text inputted': data.marketResearchText,
+                        }),
+                    });
+
+                    if (!response.ok) {
+                        const errorText = await response.text();
+                        console.error('❌ Bubble API Error Response:', errorText);
+                        console.error('❌ Status:', response.status, response.statusText);
+                        throw new Error(`Signup failed: ${response.status} - ${errorText}`);
+                    }
+
+                    console.log('✅ Form submitted successfully to Bubble workflow');
+                    console.log('Data sent:', { email: data.email, phone: data.phone, text: data.marketResearchText });
+
+                    setSection('final');
+                } catch (error) {
+                    console.error('❌ Submission error:', error);
+                    setError(error.message || 'Signup failed. Please try again.');
+                    setSection('contact');
+                }
+            };
+
+            if (!isOpen) return null;
+
+            const showNavigation = section !== 'parsing' && section !== 'loading' && section !== 'final';
+
+            return (
+                <div className="modal-overlay" onClick={onClose}>
+                    <div className="modal" onClick={(e) => e.stopPropagation()}>
+                        <div className="modal-header">
+                            <svg className="modal-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                                <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z" />
+                                <polyline points="3.27 6.96 12 12.01 20.73 6.96" />
+                                <line x1="12" y1="22.08" x2="12" y2="12" />
+                            </svg>
+                            <h2 className="modal-title">
+                                Market Research for Lodging, Storage, Transport, Restaurants and more
+                            </h2>
+                            <button className="modal-close" onClick={onClose}>×</button>
+                        </div>
+
+                        <div className="modal-content">
+                            {section === 'freeform' && (
+                                <div className="freeform-container">
+                                    <p className="freeform-instruction">
+                                        Describe your unique logistics needs in your own words
+                                    </p>
+                                    <textarea
+                                        className="freeform-textarea"
+                                        value={formData.marketResearchText || ''}
+                                        onChange={(e) => setFormData({ ...formData, marketResearchText: e.target.value })}
+                                        placeholder={`ex.\nI need a quiet space near downtown, weekly from Monday to Friday.\n\nSend to john@gmail.com or call (415) 555-5555`}
+                                        rows={8}
+                                    />
+                                    <div className="freeform-helper">
+                                        💡 Include your email and phone number for faster processing
+                                    </div>
+                                </div>
+                            )}
+
+                            {section === 'parsing' && (
+                                <div className="parsing-container">
+                                    <div className="lottie-wrapper">
+                                        <LottieAnimation
+                                            src={PARSING_LOTTIE_URL}
+                                            loop={true}
+                                            autoplay={true}
+                                            className="parsing-lottie"
+                                        />
+                                    </div>
+                                    <h3 className="stage-message">Analyzing your request...</h3>
+                                    <p className="stage-submessage">Please wait while we extract the information</p>
+                                </div>
+                            )}
+
+                            {section === 'contact' && (
+                                <div className="contact-form">
+                                    <h3 className="contact-heading">Where do we send the report?</h3>
+                                    <div className="form-group">
+                                        <label className="form-label">
+                                            Your email <span className="form-required">*</span>
+                                        </label>
+                                        <input
+                                            type="email"
+                                            className="form-input"
+                                            value={formData.email || ''}
+                                            onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                                            placeholder="your.email@example.com"
+                                            required
+                                        />
+                                    </div>
+                                    <div className="form-group">
+                                        <label className="form-label">Phone number (optional)</label>
+                                        <input
+                                            type="tel"
+                                            className="form-input"
+                                            value={formData.phone || ''}
+                                            onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                                            placeholder="(415) 555-5555"
+                                        />
+                                    </div>
+                                    <p className="form-disclaimer">
+                                        We'll send your personalized market research report to this email address.
+                                    </p>
+                                </div>
+                            )}
+
+                            {section === 'loading' && (
+                                <div className="loading-container">
+                                    <div className="lottie-wrapper">
+                                        <LottieAnimation
+                                            src={LOADING_LOTTIE_URL}
+                                            loop={true}
+                                            autoplay={true}
+                                            className="loading-lottie"
+                                        />
+                                    </div>
+                                    <h3 className="stage-message">We are processing your request</h3>
+                                    <p className="stage-submessage">This will only take a moment...</p>
+                                </div>
+                            )}
+
+                            {section === 'final' && (
+                                <div className="success-container">
+                                    <div className="lottie-wrapper">
+                                        <LottieAnimation
+                                            src={SUCCESS_LOTTIE_URL}
+                                            loop={true}
+                                            autoplay={true}
+                                            className="success-lottie"
+                                        />
+                                    </div>
+                                    <h3 className="stage-message">Success!</h3>
+                                    <p className="stage-submessage" style={{fontSize: '16px', color: '#333', marginBottom: '8px'}}>
+                                        Tomorrow morning, you'll receive a full report.
+                                    </p>
+                                    <p className="stage-submessage">
+                                        Check your inbox for the comprehensive market research report.
+                                    </p>
+                                </div>
+                            )}
+                        </div>
+
+                        {error && <div className="error-message">{error}</div>}
+
+                        {showNavigation && (
+                            <div className="nav-buttons">
+                                {section === 'contact' && (
+                                    <button className="nav-back" onClick={handleBack}>
+                                        ← Back
+                                    </button>
+                                )}
+                                <button
+                                    className="nav-next"
+                                    onClick={section === 'contact' ? () => handleSubmit() : handleNext}
+                                >
+                                    {getButtonText()}
+                                </button>
+                            </div>
+                        )}
+
+                        {section === 'final' && (
+                            <div className="nav-buttons">
+                                <button className="final-close" onClick={onClose}>
+                                    Close
+                                </button>
+                            </div>
+                        )}
+                    </div>
+                </div>
+            );
+        }
+
+        // App
+        function App() {
+            const [isModalOpen, setIsModalOpen] = useState(false);
+            return (
+                <AiPopupSignupSearch
+                    isOpen={isModalOpen}
+                    onClose={() => setIsModalOpen(false)}
+                />
+            );
+        }
+
+        const container = document.getElementById('modal-root');
+        const root = ReactDOM.createRoot(container);
+        root.render(<App />);
+
+        window.openModal = function() {
+            const container = document.getElementById('modal-root');
+            const root = ReactDOM.createRoot(container);
+
+            function ModalApp() {
+                const [isOpen, setIsOpen] = useState(true);
+                return (
+                    <AiPopupSignupSearch
+                        isOpen={isOpen}
+                        onClose={() => setIsOpen(false)}
+                    />
+                );
+            }
+
+            root.render(<ModalApp />);
+        };
+    </script>
+</body>
+</html>

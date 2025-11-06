@@ -1,0 +1,47 @@
+{
+  "permissions": {
+    "allow": [
+      "mcp__playwright__browser_evaluate",
+      "mcp__playwright__browser_resize",
+      "mcp__playwright__browser_navigate",
+      "mcp__playwright__browser_wait_for",
+      "mcp__playwright__browser_take_screenshot",
+      "Read(//c/Users/Split Lease/Downloads/**)",
+      "mcp__playwright__browser_click",
+      "Bash(pip install:*)",
+      "WebFetch(domain:app.split.lease)",
+      "mcp__playwright__browser_install",
+      "mcp__playwright__browser_network_requests",
+      "mcp__playwright__browser_hover",
+      "mcp__playwright__browser_snapshot",
+      "WebSearch",
+      "mcp__playwright__browser_console_messages",
+      "mcp__playwright__browser_select_option",
+      "mcp__playwright__browser_tabs",
+      "mcp__playwright__browser_navigate_back",
+      "mcp__byterover-mcp__byterover-retrieve-knowledge",
+      "Read(//c/Users/Split Lease/Documents/supabase_backend/**)",
+      "Bash(sed:*)",
+      "Bash(ls:*)",
+      "Bash(cat:*)",
+      "Bash(grep:*)",
+      "Bash(git status:*)",
+      "Bash(git log:*)",
+      "Bash(find:*)",
+      "Read",
+      "Grep",
+      "Glob",
+      "LS",
+      "Bash(git:*)",
+      "Bash(npm:*)",
+      "Bash(mv:*)",
+      "Write",
+      "Edit"
+    ],
+    "deny": [],
+    "ask": [
+      "Bash(rm:*)"
+    ]
+  },
+  "outputStyle": "Explanatory"
+}

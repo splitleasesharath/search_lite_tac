@@ -1,0 +1,4 @@
+Trigger rebuild with BUBBLE_MESSAGING_ENDPOINT env var: 2025-10-19T16:54:00Z
+Commit: 3e09fbf
+Endpoint: https://app.split.lease/api/1.1/wf/core-contact-host-send-message
+Environment variable added to Cloudflare Pages

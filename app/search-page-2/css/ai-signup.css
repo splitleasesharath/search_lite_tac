@@ -1,0 +1,271 @@
+/* AI Signup Modal Styles */
+
+.ai-signup-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10000;
+    animation: fadeIn 0.2s ease-in-out;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+.ai-signup-modal {
+    background: #FFFFFF;
+    border: 1px solid #D4D4D4;
+    border-radius: 25px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+    max-width: 600px;
+    width: 90%;
+    max-height: 90vh;
+    overflow-y: auto;
+    animation: slideUp 0.3s ease-out;
+}
+
+@keyframes slideUp {
+    from { transform: translateY(20px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
+
+.ai-signup-header {
+    padding: 24px;
+    border-bottom: 1px dotted #6B6B6B;
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    position: relative;
+}
+
+.ai-signup-icon {
+    width: 40px;
+    height: 40px;
+    color: #8B31FF;
+    flex-shrink: 0;
+}
+
+.ai-signup-title {
+    font-size: 18px;
+    font-weight: 600;
+    color: #333;
+    margin: 0;
+    padding-right: 40px;
+    line-height: 1.4;
+    flex: 1;
+}
+
+.ai-signup-close {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background: none;
+    border: none;
+    font-size: 32px;
+    cursor: pointer;
+    color: #666;
+    line-height: 1;
+    padding: 0;
+    width: 32px;
+    height: 32px;
+}
+
+.ai-signup-close:hover { color: #333; }
+
+.ai-signup-content {
+    padding: 24px;
+    min-height: 200px;
+}
+
+.ai-signup-error {
+    background: #fee;
+    border: 1px solid #fcc;
+    color: #c33;
+    padding: 12px 16px;
+    margin: 0 24px 16px;
+    border-radius: 8px;
+    font-size: 14px;
+}
+
+.ai-signup-nav {
+    display: flex;
+    gap: 12px;
+    padding: 24px;
+    border-top: 1px dotted #6B6B6B;
+}
+
+.ai-signup-btn-primary,
+.ai-signup-btn-secondary {
+    flex: 1;
+    padding: 12px 24px;
+    font-size: 16px;
+    font-weight: 500;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s;
+    border: none;
+}
+
+.ai-signup-btn-primary {
+    background: #8B31FF;
+    color: white;
+}
+
+.ai-signup-btn-primary:hover {
+    background: #7a28e6;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(139, 49, 255, 0.2);
+}
+
+.ai-signup-btn-secondary {
+    border: 1px solid #D4D4D4;
+    background: white;
+    color: #8B31FF;
+}
+
+.ai-signup-btn-secondary:hover {
+    background: #f5f5f5;
+    border-color: #8B31FF;
+}
+
+/* Freeform Input */
+.ai-signup-freeform {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.ai-signup-instruction {
+    font-size: 16px;
+    font-weight: 500;
+    color: #333;
+    margin: 0;
+}
+
+.ai-signup-textarea {
+    width: 100%;
+    padding: 16px;
+    border: 1px solid #D4D4D4;
+    border-radius: 12px;
+    font-size: 15px;
+    font-family: inherit;
+    line-height: 1.6;
+    resize: vertical;
+    min-height: 180px;
+}
+
+.ai-signup-textarea:focus {
+    outline: none;
+    border-color: #8B31FF;
+    box-shadow: 0 0 0 3px rgba(139, 49, 255, 0.1);
+}
+
+.ai-signup-helper {
+    background: #f8f5ff;
+    border: 1px solid #e4d5ff;
+    border-radius: 8px;
+    padding: 12px 16px;
+    font-size: 14px;
+    color: #6B6B6B;
+}
+
+/* Contact Form */
+.ai-signup-contact {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.ai-signup-heading {
+    font-size: 18px;
+    font-weight: 600;
+    color: #333;
+    margin: 0;
+}
+
+.ai-signup-form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.ai-signup-label {
+    font-size: 14px;
+    font-weight: 500;
+    color: #333;
+}
+
+.ai-signup-required {
+    color: #e53e3e;
+}
+
+.ai-signup-input {
+    width: 100%;
+    padding: 12px 16px;
+    border: 1px solid #D4D4D4;
+    border-radius: 8px;
+    font-size: 15px;
+    font-family: inherit;
+}
+
+.ai-signup-input:focus {
+    outline: none;
+    border-color: #8B31FF;
+    box-shadow: 0 0 0 3px rgba(139, 49, 255, 0.1);
+}
+
+.ai-signup-disclaimer {
+    font-size: 13px;
+    color: #6B6B6B;
+    margin: 0;
+}
+
+/* Loading/Parsing Stages */
+.ai-signup-parsing,
+.ai-signup-loading,
+.ai-signup-final {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 20px;
+    text-align: center;
+}
+
+.ai-signup-lottie {
+    width: 100px;
+    height: 100px;
+    margin-bottom: 24px;
+}
+
+.ai-signup-lottie-success {
+    width: 200px;
+    height: 200px;
+    margin-bottom: 24px;
+}
+
+.ai-signup-message {
+    font-size: 20px;
+    font-weight: 600;
+    color: #333;
+    margin: 0 0 8px 0;
+}
+
+.ai-signup-submessage {
+    font-size: 14px;
+    color: #6B6B6B;
+    margin: 0;
+}
+
+.ai-signup-final-message {
+    font-size: 16px;
+    color: #333;
+    margin: 8px 0;
+}

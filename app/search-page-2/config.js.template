@@ -1,0 +1,6 @@
+// Configuration template - will be populated during build
+window.ENV = {
+    GOOGLE_MAPS_API_KEY: '__GOOGLE_MAPS_API_KEY__',
+    BUBBLE_API_KEY: '__BUBBLE_API_KEY__',
+    BUBBLE_API_BASE_URL: '__BUBBLE_API_BASE_URL__'
+};
