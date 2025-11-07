@@ -9,6 +9,7 @@ issue_json: $3
 
 ## Instructions
 
+- **IMPORTANT: Execute `/enforce_no_fallback` before starting** to ensure the plan adheres to the no-fallback principle
 - IMPORTANT: You're writing a plan to implement a net new feature based on the `Feature` that will add value to the application.
 - IMPORTANT: The `Feature` describes the feature that will be implemented but remember we're not implementing a new feature, we're creating the plan that will be used to implement the feature based on the `Plan Format` below.
 - Create the plan in the `specs/` directory with filename: `issue-{issue_number}-adw-{adw_id}-sdlc_planner-{descriptive-name}.md`
@@ -16,7 +17,7 @@ issue_json: $3
 - Use the `Plan Format` below to create the plan. 
 - Research the codebase to understand existing patterns, architecture, and conventions before planning the feature.
 - IMPORTANT: Replace every <placeholder> in the `Plan Format` with the requested value. Add as much detail as needed to implement the feature successfully.
-- Use your reasoning model: THINK HARD about the feature requirements, design, and implementation approach.
+- Use your reasoning model: ULTRATHINK about the feature requirements, design, and implementation approach.
 - Follow existing patterns and conventions in the codebase. Don't reinvent the wheel.
 - Design for extensibility and maintainability.
 - If you need a new library, use `uv add` and be sure to report it in the `Notes` section of the `Plan Format`.
@@ -33,10 +34,11 @@ issue_json: $3
 
 Focus on the following files:
 - `README.md` - Contains the project overview and instructions.
-- `app/split-lease/components/**` - React component library (UMD bundles).
-- `app/split-lease/pages/**` - Static HTML pages with React Islands.
-- `app/test-harness/**` - Playwright test infrastructure.
-- `scripts/**` - Contains the scripts (if any).
+- `app/search-page-2/index.html` - Main single-page entry point (HTML).
+- `app/search-page-2/js/**` - Core JavaScript modules (app.js, supabase-api.js, filter-config.js, etc.).
+- `app/search-page-2/components/**` - React island components (ScheduleSelector, ContactHost, AiSignup).
+- `app/search-page-2/css/**` - Stylesheets (styles.css, responsive.css, ai-signup.css).
+- `app/search-page-2/dist/**` - Built React component bundles.
 - `adws/**` - Contains the AI Developer Workflow (ADW) scripts.
 
 - Read `.claude/commands/conditional_docs.md` to check if your task requires additional documentation
@@ -106,12 +108,6 @@ IMPORTANT: Execute every step in order, top to bottom.
 Execute every command to validate the feature works correctly with zero regressions.
 
 <list commands you'll use to validate with 100% confidence the feature is implemented correctly with zero regressions. every command must execute without errors so be specific about what you want to run to validate the feature works as expected. Include commands to test the feature end-to-end.>
-
-<If you created an E2E test, include the following validation step: `Read .claude/commands/test_e2e.md`, then read and execute your new E2E `.claude/commands/e2e/test_<descriptive_name>.md` test file to validate this functionality works.>
-
-- `cd app/split-lease/components && npm run typecheck` - Run TypeScript type checking to validate zero type errors
-- `cd app/split-lease/components && npm run build` - Run component build to validate UMD bundle generation works
-- `cd app/test-harness && npm test` - Run all component tests (contracts + diagnostics) to validate zero regressions
 
 ## Notes
 <optionally list any additional notes, future considerations, or context that are relevant to the feature that will be helpful to the developer>

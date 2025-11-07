@@ -12,6 +12,7 @@ issue_screenshots: $5 (optional) - comma-separated list of screenshot paths if p
 
 ## Instructions
 
+- **IMPORTANT: Execute `/enforce_no_fallback` before starting** to ensure the patch adheres to the no-fallback principle
 - IMPORTANT: You're creating a patch plan to fix a specific review issue. Keep changes small, focused, and targeted
 - Read the original specification (spec) file at `spec_path` if provided to understand the context and requirements
 - IMPORTANT Use the `review_change_request` to understand exactly what needs and use it as the basis for your patch plan
@@ -20,7 +21,7 @@ issue_screenshots: $5 (optional) - comma-separated list of screenshot paths if p
   - Replace `{descriptive-name}` with a short name based on the issue (e.g., "fix-button-color", "update-validation", "correct-layout")
 - IMPORTANT: This is a PATCH - keep the scope minimal. Only fix what's described in the `review_change_request` and nothing more. Address only the `review_change_request`.
 - Run `git diff --stat`. If changes are available, use them to understand what's been done in the codebase and so you can understand the exact changes you should detail in the patch plan.
-- Ultra think about the most efficient way to implement the solution with minimal code changes
+- ULTRATHINK about the most efficient way to implement the solution with minimal code changes
 - Base your `Plan Format: Validation` on the validation steps from `spec_path` if provided
   - If any tests fail in the validation steps, you must fix them.
   - If not provided, READ `.claude/commands/test.md: ## Test Execution Sequence` and execute the tests to understand the tests that need to be run to validate the patch.
@@ -31,10 +32,11 @@ issue_screenshots: $5 (optional) - comma-separated list of screenshot paths if p
 
 Focus on the following files:
 - `README.md` - Contains the project overview and instructions.
-- `app/split-lease/components/**` - React component library (UMD bundles).
-- `app/split-lease/pages/**` - Static HTML pages with React Islands.
-- `app/test-harness/**` - Playwright test infrastructure.
-- `scripts/**` - Contains the scripts (if any).
+- `app/search-page-2/index.html` - Main single-page entry point (HTML).
+- `app/search-page-2/js/**` - Core JavaScript modules (app.js, supabase-api.js, filter-config.js, etc.).
+- `app/search-page-2/components/**` - React island components (ScheduleSelector, ContactHost, AiSignup).
+- `app/search-page-2/css/**` - Stylesheets (styles.css, responsive.css, ai-signup.css).
+- `app/search-page-2/dist/**` - Built React component bundles.
 - `adws/**` - Contains the AI Developer Workflow (ADW) scripts.
 
 - Read `.claude/commands/conditional_docs.md` to check if your task requires additional documentation

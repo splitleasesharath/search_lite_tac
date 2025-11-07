@@ -9,28 +9,31 @@ issue_json: $3
 
 ## Instructions
 
+- **IMPORTANT: Execute `/enforce_no_fallback` before starting** to ensure the plan adheres to the no-fallback principle
 - IMPORTANT: You're writing a plan to resolve a chore based on the `Chore` that will add value to the application.
 - IMPORTANT: The `Chore` describes the chore that will be resolved but remember we're not resolving the chore, we're creating the plan that will be used to resolve the chore based on the `Plan Format` below.
-- You're writing a plan to resolve a chore, it should be simple but we need to be thorough and precise so we don't miss anything or waste time with any second round of changes.
+- You're writing a plan to resolve a chore, it should be concise but comprehensive so we don't miss anything.
 - Create the plan in the `specs/` directory with filename: `issue-{issue_number}-adw-{adw_id}-sdlc_planner-{descriptive-name}.md`
   - Replace `{descriptive-name}` with a short, descriptive name based on the chore (e.g., "update-readme", "fix-tests", "refactor-auth")
 - Use the plan format below to create the plan. 
 - Research the codebase and put together a plan to accomplish the chore.
 - IMPORTANT: Replace every <placeholder> in the `Plan Format` with the requested value. Add as much detail as needed to accomplish the chore.
-- Use your reasoning model: THINK HARD about the plan and the steps to accomplish the chore.
+- Use your reasoning model: ULTRATHINK about the plan and the steps to accomplish the chore.
 - Respect requested files in the `Relevant Files` section.
 - Start your research by reading the `README.md` file.
 - `adws/*.py` contain astral uv single file python scripts. So if you want to run them use `uv run <script_name>`.
 - When you finish creating the plan for the chore, follow the `Report` section to properly report the results of your work.
+- 
 
 ## Relevant Files
 
 Focus on the following files:
 - `README.md` - Contains the project overview and instructions.
-- `app/split-lease/components/**` - React component library (UMD bundles).
-- `app/split-lease/pages/**` - Static HTML pages with React Islands.
-- `app/test-harness/**` - Playwright test infrastructure.
-- `scripts/**` - Contains the scripts (if any).
+- `app/search-page-2/index.html` - Main single-page entry point (HTML).
+- `app/search-page-2/js/**` - Core JavaScript modules (app.js, supabase-api.js, filter-config.js, etc.).
+- `app/search-page-2/components/**` - React island components (ScheduleSelector, ContactHost, AiSignup).
+- `app/search-page-2/css/**` - Stylesheets (styles.css, responsive.css, ai-signup.css).
+- `app/search-page-2/dist/**` - Built React component bundles.
 - `adws/**` - Contains the AI Developer Workflow (ADW) scripts.
 
 - Read `.claude/commands/conditional_docs.md` to check if your task requires additional documentation
@@ -65,10 +68,6 @@ IMPORTANT: Execute every step in order, top to bottom.
 Execute every command to validate the chore is complete with zero regressions.
 
 <list commands you'll use to validate with 100% confidence the chore is complete with zero regressions. every command must execute without errors so be specific about what you want to run to validate the chore is complete with zero regressions. Don't validate with curl commands.>
-
-- `cd app/split-lease/components && npm run typecheck` - Run TypeScript type checking to validate zero type errors
-- `cd app/split-lease/components && npm run build` - Run component build to validate UMD bundle generation works
-- `cd app/test-harness && npm test` - Run all component tests (contracts + diagnostics) to validate zero regressions
 
 ## Notes
 <optionally list any additional notes or context that are relevant to the chore that will be helpful to the developer>

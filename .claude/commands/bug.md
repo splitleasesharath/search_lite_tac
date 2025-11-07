@@ -9,6 +9,7 @@ issue_json: $3
 
 ## Instructions
 
+- **IMPORTANT: Execute `/enforce_no_fallback` before starting** to ensure the plan adheres to the no-fallback principle
 - IMPORTANT: You're writing a plan to resolve a bug based on the `Bug` that will add value to the application.
 - IMPORTANT: The `Bug` describes the bug that will be resolved but remember we're not resolving the bug, we're creating the plan that will be used to resolve the bug based on the `Plan Format` below.
 - You're writing a plan to resolve a bug, it should be thorough and precise so we fix the root cause and prevent regressions.
@@ -17,7 +18,7 @@ issue_json: $3
 - Use the plan format below to create the plan. 
 - Research the codebase to understand the bug, reproduce it, and put together a plan to fix it.
 - IMPORTANT: Replace every <placeholder> in the `Plan Format` with the requested value. Add as much detail as needed to fix the bug.
-- Use your reasoning model: THINK HARD about the bug, its root cause, and the steps to fix it properly.
+- Use your reasoning model: ULTRATHINK about the bug, its root cause, and the steps to fix it properly.
 - IMPORTANT: Be surgical with your bug fix, solve the bug at hand and don't fall off track.
 - IMPORTANT: We want the minimal number of changes that will fix and address the bug.
 - Don't use decorators. Keep it simple.
@@ -34,10 +35,11 @@ issue_json: $3
 
 Focus on the following files:
 - `README.md` - Contains the project overview and instructions.
-- `app/split-lease/components/**` - React component library (UMD bundles).
-- `app/split-lease/pages/**` - Static HTML pages with React Islands.
-- `app/test-harness/**` - Playwright test infrastructure.
-- `scripts/**` - Contains the scripts (if any).
+- `app/search-page-2/index.html` - Main single-page entry point (HTML).
+- `app/search-page-2/js/**` - Core JavaScript modules (app.js, supabase-api.js, filter-config.js, etc.).
+- `app/search-page-2/components/**` - React island components (ScheduleSelector, ContactHost, AiSignup).
+- `app/search-page-2/css/**` - Stylesheets (styles.css, responsive.css, ai-signup.css).
+- `app/search-page-2/dist/**` - Built React component bundles.
 - `adws/**` - Contains the AI Developer Workflow (ADW) scripts.
 
 - Read `.claude/commands/conditional_docs.md` to check if your task requires additional documentation
@@ -70,6 +72,19 @@ issue_json: `{issue_json}`
 ## Root Cause Analysis
 <analyze and explain the root cause of the bug>
 
+## Building for Truth
+
+When implementing solutions, prioritize authenticity and appropriate scale over complexity:
+
+- **No Fallback Mechanisms When Things Get Tough**: When you encounter challenges or limitations, resist the temptation to add fallback logic, compatibility layers, or workarounds. These create technical debt and obscure the real problem. Instead, solve the root issue or acknowledge the constraint honestly.
+
+- **Match Solution to Scale**: Don't build skyscrapers in a small town. Assess the actual requirements and scale your solution appropriately. Over-engineering for hypothetical future needs creates unnecessary complexity, maintenance burden, and cognitive overhead.
+
+- **Embrace Constraints**: Work within the natural boundaries of your tools and architecture. If something is difficult to implement, that friction is often a signal that you're fighting against the design rather than working with it.
+
+- **Be Direct**: Choose simple, direct solutions that clearly express intent over clever abstractions. Future maintainers (including yourself) will thank you for code that does exactly what it says, nothing more.
+
+
 ## Relevant Files
 Use these files to fix the bug:
 
@@ -88,12 +103,6 @@ IMPORTANT: Execute every step in order, top to bottom.
 Execute every command to validate the bug is fixed with zero regressions.
 
 <list commands you'll use to validate with 100% confidence the bug is fixed with zero regressions. every command must execute without errors so be specific about what you want to run to validate the bug is fixed with zero regressions. Include commands to reproduce the bug before and after the fix.>
-
-<If you created an E2E test, include the following validation step: "Read .claude/commands/test_e2e.md`, then read and execute your new E2E `.claude/commands/e2e/test_<descriptive_name>.md` test file to validate this functionality works.">
-
-- `cd app/split-lease/components && npm run typecheck` - Run TypeScript type checking to validate zero type errors
-- `cd app/split-lease/components && npm run build` - Run component build to validate UMD bundle generation works
-- `cd app/test-harness && npm test` - Run all component tests (contracts + diagnostics) to validate zero regressions
 
 ## Notes
 <optionally list any additional notes or context that are relevant to the bug that will be helpful to the developer>

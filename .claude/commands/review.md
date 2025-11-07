@@ -11,6 +11,7 @@ review_image_dir: `<absolute path to codebase>/agents/<adw_id>/<agent_name>/revi
 
 ## Instructions
 
+- **IMPORTANT: Execute `/no_fallback_check` first** to scan the codebase for fallback mechanisms and hardcoded data before reviewing
 - Check current git branch using `git branch` to understand context
 - Run `git diff origin/main` to see all changes made in current branch. Continue even if there are no changes related to the spec file.
 - Find the spec file by looking for specs/*.md files in the diff that match the current branch name
@@ -35,7 +36,7 @@ review_image_dir: `<absolute path to codebase>/agents/<adw_id>/<agent_name>/revi
     - Ensure screenshots clearly demonstrate that features work as specified
     - Use descriptive filenames that indicate what part of the change is being verified
 - IMPORTANT: Issue Severity Guidelines
-  - Think hard about the impact of the issue on the feature and the user
+  - ULTRATHINK about the impact of the issue on the feature and the user
   - Guidelines:
     - `skippable` - the issue is non-blocker for the work to be released but is still a problem
     - `tech_debt` - the issue is non-blocker for the work to be released but will create technical debt that should be addressed in the future
@@ -44,7 +45,7 @@ review_image_dir: `<absolute path to codebase>/agents/<adw_id>/<agent_name>/revi
   - IMPORTANT: Output your result in JSON format based on the `Report` section below.
   - IMPORTANT: Do not include any additional text, explanations, or markdown formatting
   - We'll immediately run JSON.parse() on the output, so make sure it's valid JSON
-- Ultra think as you work through the review process. Focus on the critical functionality paths and the user experience. Don't report issues if they are not critical to the feature.
+- UULTRATHINK as you work through the review process. Focus on the critical functionality paths and the user experience. Don't report issues if they are not critical to the feature.
 
 ## Setup
 
@@ -73,7 +74,8 @@ IMPORTANT: Read and **Execute** `.claude/commands/prepare_app.md` now to prepare
             "screenshot_path": "string - /absolute/path/to/screenshot_that_shows_review_issue.png",
             "issue_description": "string - description of the issue",
             "issue_resolution": "string - description of the resolution",
-            "issue_severity": "string - severity of the issue between 'skippable', 'tech_debt', 'blocker'"
+            "issue_severity": "string - severity of the issue between 'skippable', 'tech_debt', 'blocker'",
+            "issue_type": "string - type of issue: 'fallback_mechanism', 'hardcoded_data', 'functional', 'ui', 'performance', 'security', or 'other'"
         },
         ...
     ],
