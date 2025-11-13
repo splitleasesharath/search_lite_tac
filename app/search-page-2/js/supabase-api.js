@@ -351,9 +351,16 @@ class SupabaseAPI {
 
         // Extract availability info
         const daysAvailable = dbListing['Days Available (List of Days)'] || [];
+        const nightsAvailable = dbListing['Nights Available (numbers)'] || [];
         const weeksOffered = dbListing['Weeks offered'] || 'Every week';
 
-        // Parse amenities from database fields
+        // Parse amenities from database fields using actual field names from validation
+        // Store raw amenity fields for later async resolution
+        const inUnitAmenities = dbListing['Features - Amenities In-Unit'];
+        const inBuildingAmenities = dbListing['Features - Amenities In-Building'];
+
+        // Initialize amenities as empty array - will be populated async
+        // Keep old parseAmenities as fallback for simple amenities
         const amenities = this.parseAmenities(dbListing);
 
         return {
@@ -387,7 +394,10 @@ class SupabaseAPI {
             bedrooms: bedrooms,
             bathrooms: bathrooms,
             kitchen: kitchenType,
-            amenities: amenities,
+            amenities: amenities, // Fallback simple amenities (will be enhanced async)
+            // Store raw amenity fields for async resolution by AmenityUtils
+            _inUnitAmenities: inUnitAmenities,
+            _inBuildingAmenities: inBuildingAmenities,
             host: {
             name: hostName,
             image: hostImage,
@@ -397,6 +407,7 @@ class SupabaseAPI {
             description: this.generateDescription(bedrooms, bathrooms, kitchenType),
             weeks_offered: weeksOffered,
             days_available: daysAvailable,
+            nights_available: nightsAvailable,
             created_date: dbListing['Created Date'],
             modified_date: dbListing['Modified Date'],
             isNew: this.isNewListing(dbListing['Created Date']),

@@ -349,6 +349,49 @@ function renderAmenityIcons(amenities, maxVisible = 6) {
     return html;
 }
 
+// Render bedroom/bathroom specs line
+function renderListingSpecs(listing) {
+    const bedrooms = listing.bedrooms || 0;
+    const bathrooms = listing.bathrooms || 0;
+    const guests = listing.maxGuests || listing['Features - Qty Guests'] || 1;
+    const squareFeet = listing.squareFeet || listing['Features - SQFT Area'];
+
+    const specs = [];
+
+    // Bedrooms - highlight in purple, handle studio case
+    if (bedrooms === 0) {
+        specs.push('<span class="spec-item highlight">Studio</span>');
+    } else {
+        specs.push(`<span class="spec-item highlight">${bedrooms}BR</span>`);
+    }
+
+    // Bathrooms - highlight in purple
+    if (bathrooms > 0) {
+        specs.push(`<span class="spec-item highlight">${bathrooms}BA</span>`);
+    }
+
+    // Property type
+    if (listing.type) {
+        const typeDisplay = listing.type.includes('Entire') ? 'Entire Place' :
+                           listing.type.includes('Private') ? 'Private Room' :
+                           listing.type.includes('Shared') ? 'Shared Room' : 'Apartment';
+        specs.push(`<span class="spec-item">${typeDisplay}</span>`);
+    }
+
+    // Square feet
+    if (squareFeet && squareFeet > 0) {
+        specs.push(`<span class="spec-item">${squareFeet} SQFT</span>`);
+    }
+
+    // Max guests
+    specs.push(`<span class="spec-item">${guests} guest${guests > 1 ? 's' : ''} max</span>`);
+
+    // Join with separator dots
+    return '<div class="listing-specs">' +
+           specs.join('<span class="spec-separator">•</span>') +
+           '</div>';
+}
+
 // Create a listing card element
 async function createListingCard(listing) {
     const card = document.createElement('div');
@@ -361,6 +404,19 @@ async function createListingCard(listing) {
             listing.images = await window.localDB.loadListingImagesOnDemand(listing);
         } else {
             listing.images = [];
+        }
+    }
+
+    // Resolve amenities asynchronously if not already done
+    if (!listing.amenitiesResolved && window.AmenityUtils && listing._inUnitAmenities) {
+        try {
+            listing.amenities = await window.AmenityUtils.parseAmenities(
+                listing._inUnitAmenities,
+                listing._inBuildingAmenities
+            );
+            listing.amenitiesResolved = true;
+        } catch (error) {
+            console.warn('Failed to resolve amenities for listing:', listing.id, error);
         }
     }
 
@@ -400,8 +456,8 @@ async function createListingCard(listing) {
                     <span class="location-text">${listing.location}</span>
                 </div>
                 <h3 class="listing-title">${listing.title}</h3>
-                <p class="listing-type">${listing.type}${listing.squareFeet ? ` (${listing.squareFeet} SQFT)` : ''} - ${listing.maxGuests} guests max</p>
-                ${renderAmenityIcons(listing.amenities)}
+                ${renderListingSpecs(listing)}
+                ${window.AmenityUtils ? window.AmenityUtils.renderAmenityIcons(listing.amenities) : renderAmenityIcons(listing.amenities)}
                 <p class="listing-details">${listing.description}</p>
             </div>
             <div class="listing-footer">
